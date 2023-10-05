@@ -1,12 +1,11 @@
+#ifndef KNN_H
+#define KNN_H
+
 #include <vector>
 #include <string>
 #include <map>
 
-struct DataPoint {
-    std::vector<double> continuousFeatures;
-    std::vector<std::string> categoricalFeatures;
-    std::string label;
-};
+#include "datapoint.h"
 
 class KNN {
 private:
@@ -20,3 +19,5 @@ public:
     KNN(const std::vector<DataPoint>& data, int kVal);
     std::string predict(const DataPoint& point);
 };
+
+#endif

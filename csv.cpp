@@ -3,6 +3,23 @@
 #include <fstream>
 #include <algorithm>
 
+std::vector<int> CSV::desc = {
+    0, // age
+    1, // workclass
+    0, // fnlwgt
+    1, // education
+    0, // education-num
+    1, // marital-status
+    1, // occupation
+    1, // relationship
+    1, // race
+    1, // sex
+    0, // capital-gain
+    0, // capital-loss
+    0, // hours-per-week
+    1, // native-country
+    -1,
+};
 
 CSV::CSV(const char* filePath) {
     std::ifstream file(filePath);
