@@ -10,7 +10,7 @@ std::mutex mtx;
 void processPrediction(KNN knn, const CSV& test_csv, int& success, int& failure, int start, int end) {
     for (int i = start; i < end; i++) {
         DataPoint dataPoint;
-        for (int j = 0; j < test_csv.numCols(i); ++j) {
+        for (int j = 0; j < test_csv.numCols(i); j++) {
             std::string cell = test_csv.getCell(i, j);
             switch (CSV::desc[j]) {
                 case -1: {
@@ -57,7 +57,7 @@ int main() {
 
     for (int i = 0; i < train_csv.numRows(); i++) {
         DataPoint dataPoint;
-        for (int j = 0; j < train_csv.numCols(i); ++j) {
+        for (int j = 0; j < train_csv.numCols(i); j++) {
             std::string cell = train_csv.getCell(i, j);
             switch (CSV::desc[j]) {
                 case -1: {
@@ -86,7 +86,7 @@ int main() {
         train_data.emplace_back(dataPoint);
     }
 
-    KNN knn(train_data, 3);
+    KNN knn(train_data, 10);
     int success = 0;
     int failure = 0;
 

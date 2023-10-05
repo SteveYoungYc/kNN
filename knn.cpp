@@ -19,17 +19,16 @@ KNN::KNN(const std::vector<DataPoint>& data, int kVal) : dataset(data), k(kVal) 
 
 std::string KNN::predict(const DataPoint& point) {
     std::vector<std::pair<double, DataPoint>> distances;
-    int j = 0;
+
     for (const auto& dataPoint : dataset) {
         if (point.continuousFeatures.size() != dataPoint.continuousFeatures.size()) {
-            std::cerr << j << std::endl;
+            std::cerr << "Error" << std::endl;
         }
         double dist = euclideanDistance(point.continuousFeatures, dataPoint.continuousFeatures);
         for (size_t i = 0; i < point.categoricalFeatures.size(); i++) {
             dist += categoricalDistance(point.categoricalFeatures[i], dataPoint.categoricalFeatures[i]);
         }
         distances.emplace_back(dist, dataPoint);
-        j++;
     }
 
     std::sort(distances.begin(), distances.end(), [](const auto& a, const auto& b) {
