@@ -1,13 +1,14 @@
 #include <iostream>
 #include <thread>
 #include <mutex>
+#include <chrono>
 
 #include "knn.h"
 #include "csv.h"
 
 std::mutex mtx;
 
-void processPrediction(KNN knn, const CSV& test_csv, int& success, int& failure, int start, int end) {
+void processPrediction(KNN& knn, const CSV& test_csv, int& success, int& failure, int start, int end) {
     for (int i = start; i < end; i++) {
         DataPoint dataPoint;
         for (int j = 0; j < test_csv.numCols(i); j++) {
@@ -38,7 +39,6 @@ void processPrediction(KNN knn, const CSV& test_csv, int& success, int& failure,
             }
         }
         std::string predictedLabel = knn.predict(dataPoint);
-        std::cout << i << std::endl;
 
         mtx.lock();
         if (predictedLabel == dataPoint.label) {
@@ -51,6 +51,8 @@ void processPrediction(KNN knn, const CSV& test_csv, int& success, int& failure,
 }
 
 int main() {
+    auto startTime = std::chrono::high_resolution_clock::now();
+
     CSV train_csv(R"(D:\NTU\Data Mining\chen\data\adult.data)");
     CSV test_csv(R"(D:\NTU\Data Mining\chen\data\adult.test)");
     std::vector<DataPoint> train_data;
@@ -90,12 +92,11 @@ int main() {
     int success = 0;
     int failure = 0;
 
-    std::cout << "Start" << std::endl;
-
-    int numThreads = std::thread::hardware_concurrency();
+    unsigned int numThreads = std::thread::hardware_concurrency();
     std::vector<std::thread> threads(numThreads);
+    std::cout << "Number of threads: " << numThreads << std::endl;
 
-    int rowsPerThread = test_csv.numRows() / numThreads;
+    int rowsPerThread = test_csv.numRows() / (int)numThreads;
 
     for (int i = 0; i < numThreads; i++) {
         int start = i * rowsPerThread;
@@ -108,7 +109,11 @@ int main() {
         threads[i].join();
     }
 
-    std::cout << "Accuracy: " << static_cast<double>(success) / (success + failure) << std::endl;
+    std::cout << "Accuracy: " << static_cast<double>(success) / (success + failure) * 100 << "%" << std::endl;
+    auto endTime = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
+
+    std::cout << "Time duration: " << duration.count() << " milliseconds" << std::endl;
 
     return 0;
 }
