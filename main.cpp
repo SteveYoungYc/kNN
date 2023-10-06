@@ -53,8 +53,8 @@ void processPrediction(KNN& knn, const CSV& test_csv, int& success, int& failure
 int main() {
     auto startTime = std::chrono::high_resolution_clock::now();
 
-    CSV train_csv(R"(data\adult.data)");
-    CSV test_csv(R"(data\adult.test)");
+    CSV train_csv(R"(..\data\adult.data)");
+    CSV test_csv(R"(..\data\adult.test)");
     std::vector<DataPoint> train_data;
 
     for (int i = 0; i < train_csv.numRows(); i++) {
