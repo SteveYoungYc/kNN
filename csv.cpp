@@ -36,7 +36,7 @@ CSV::CSV(const char* filePath) {
         std::string cell;
 
         while (std::getline(lineStream, cell, ',')) {
-            cell.erase(std::remove(cell.begin(), cell.end(), ' '), cell.end());  // 删除空格
+            cell.erase(std::remove(cell.begin(), cell.end(), ' '), cell.end());
             row.push_back(cell);
         }
 
@@ -44,13 +44,6 @@ CSV::CSV(const char* filePath) {
     }
 
     file.close();
-}
-
-std::vector<std::string> CSV::getRow(int rowIndex) const {
-    if (rowIndex >= 0 && rowIndex < data.size()) {
-        return data[rowIndex];
-    }
-    return {};
 }
 
 std::string CSV::getCell(int rowIndex, int colIndex) const {
@@ -63,12 +56,12 @@ std::string CSV::getCell(int rowIndex, int colIndex) const {
 }
 
 int CSV::numRows() const {
-    return data.size();
+    return (int)data.size();
 }
 
 int CSV::numCols(int rowIndex) const {
     if (rowIndex >= 0 && rowIndex < data.size()) {
-        return data[rowIndex].size();
+        return (int)data[rowIndex].size();
     }
     return -1;
 }

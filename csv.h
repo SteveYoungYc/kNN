@@ -13,8 +13,7 @@ private:
 public:
     static std::vector<int> desc;
 
-    CSV(const char* filePath);
-    std::vector<std::string> getRow(int rowIndex) const;
+    explicit CSV(const char* filePath);
     std::string getCell(int rowIndex, int colIndex) const;
     int numRows() const;
     int numCols(int rowIndex) const;
