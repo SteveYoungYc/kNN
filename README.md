@@ -23,5 +23,5 @@ make
 ```
 Number of threads: 16
 Accuracy: 79.8354%
-Time duration: 357546 milliseconds
+Time duration: 330736 milliseconds
 ```
